@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductPage extends StatelessWidget {
   const ProductPage({Key? key}) : super(key: key);
@@ -11,7 +13,22 @@ class ProductPage extends StatelessWidget {
       ),
       body: SafeArea(
         child: Center(
-          child: Text('Product'),
+          child: ElevatedButton(
+            onPressed: () async{
+              final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+              final SharedPreferences prefs = await _prefs;
+              final token = prefs.getString('accessToken');
+              final Response response = await Dio().get(
+                'https://96.9.67.188:4434/api/Products',
+                options: Options(
+                  headers: {
+                    'Authorization': 'Bearer $token'
+                  }
+                )
+              );
+              print(response.statusCode);
+            },
+              child: Text('Get Product')),
         ),
       ),
     );
