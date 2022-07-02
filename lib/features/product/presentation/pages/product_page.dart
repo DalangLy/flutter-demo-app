@@ -1,34 +1,77 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../blocs/get/get_all_products_bloc.dart';
 
-class ProductPage extends StatelessWidget {
+class ProductPage extends StatefulWidget {
   const ProductPage({Key? key}) : super(key: key);
+
+  @override
+  State<ProductPage> createState() => _ProductPageState();
+}
+
+class _ProductPageState extends State<ProductPage> {
+
+  @override
+  initState(){
+    super.initState();
+
+    BlocProvider.of<GetAllProductsBloc>(context).getAllProducts();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Product'),
+        title: const Text('Product'),
       ),
       body: SafeArea(
         child: Center(
-          child: ElevatedButton(
-            onPressed: () async{
-              final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-              final SharedPreferences prefs = await _prefs;
-              final token = prefs.getString('accessToken');
-              final Response response = await Dio().get(
-                'https://96.9.67.188:4434/api/Products',
-                options: Options(
-                  headers: {
-                    'Authorization': 'Bearer $token'
-                  }
-                )
-              );
-              print(response.statusCode);
-            },
-              child: Text('Get Product')),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    ElevatedButton(onPressed: (){}, child: const Icon(Icons.add),),
+                  ],
+                ),
+                const Divider(),
+                BlocBuilder<GetAllProductsBloc, GetAllProductsState>(
+                  bloc: BlocProvider.of<GetAllProductsBloc>(context),
+                  builder: (context, state) {
+                    if(state is GetAllProductsSuccess){
+                      return DataTable(
+                          columns: const <DataColumn>[
+                            DataColumn(label: Text('ID')),
+                            DataColumn(label: Text('Code')),
+                            DataColumn(label: Text('Name')),
+                            DataColumn(label: Text('Price')),
+                            DataColumn(label: Text('Description')),
+                            DataColumn(label: Text('Actions'))
+                          ],
+                          rows: state.data.map<DataRow>((e) => DataRow(
+                            cells: <DataCell>[
+                              DataCell(Text(e.id)),
+                              DataCell(Text(e.code)),
+                              DataCell(Text(e.name)),
+                              DataCell(Text(e.price.toString())),
+                              DataCell(Text(e.description.toString())),
+                              DataCell(
+                                IconButton(
+                                  onPressed: (){},
+                                  icon: const Icon(Icons.delete, color: Colors.red,),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ).toList()
+                      );
+                    }
+                    return const CircularProgressIndicator();
+                  },
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
