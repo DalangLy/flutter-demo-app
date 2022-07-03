@@ -1,9 +1,9 @@
-import '../../../stock/domain/entities/stock.dart';
+import '../../../stock/domain/entities/stock_entity.dart';
 
 class Ware{
   final String id;
   final String code;
-  final List<Stock> stockings;
+  final List<StockEntity> stockings;
   final String name;
   final String? description;
 

@@ -1,5 +1,5 @@
 import '../../../stock/data/models/stock_model.dart';
-import '../../../stock/domain/entities/stock.dart';
+import '../../../stock/domain/entities/stock_entity.dart';
 import '../../domain/entities/ware.dart';
 
 class WareModel extends Ware {
@@ -8,9 +8,9 @@ class WareModel extends Ware {
 
   factory WareModel.fromJson(Map<String, dynamic> json) {
     final dynamic itemSizeApplyingJson = json['stockings'];
-    final List<Stock> itemSizeApplyingModel = itemSizeApplyingJson == null
+    final List<StockEntity> itemSizeApplyingModel = itemSizeApplyingJson == null
         ? []
-        : List<Stock>.from(itemSizeApplyingJson.map<Stock>(
+        : List<StockEntity>.from(itemSizeApplyingJson.map<StockEntity>(
             (itemSizeApplyingJson) =>
                 StockModel.fromJson(itemSizeApplyingJson)));
     return WareModel(

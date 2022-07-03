@@ -15,7 +15,7 @@ class GetAllStocksInProgress extends GetAllStocksState {
 }
 
 class GetAllStocksSuccess extends GetAllStocksState {
-  final List<Stock> data;
+  final List<StockEntity> data;
   const GetAllStocksSuccess(this.data);
 
   @override

@@ -1,6 +1,6 @@
+import 'package:demo_app/features/product/data/models/create_product_model.dart';
+import 'package:demo_app/features/product/data/models/product_model.dart';
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../models/product_model.dart';
 import 'i_product_remote_data_source.dart';
 
 class ProductRemoteDataSource implements IProductRemoteDataSource{
@@ -9,22 +9,40 @@ class ProductRemoteDataSource implements IProductRemoteDataSource{
   ProductRemoteDataSource(this._dio);
 
   @override
-  Future<List<ProductModel>> getAll() async{
+  Future<void> create(CreateProductModel product, String accessToken) async{
     try{
-      final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-      final SharedPreferences prefs = await _prefs;
-
-      final String? token = prefs.getString('accessToken');
       final Response response = await _dio.post(
-        'https://96.9.67.188:4434/api/Products/GetAll',
-        data: {
-          'ids': null
-        },
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-          }
-        )
+          'https://96.9.67.188:4434/api/Products/GetAll',
+          data: product.toJson(),
+          options: Options(
+              headers: {
+                'Authorization': 'Bearer $accessToken',
+              }
+          )
+      );
+
+      if(response.statusCode == 200){
+        final List<dynamic> parsed = response.data['data'];
+      }
+      throw Exception();
+    }catch(e){
+      throw Exception();
+    }
+  }
+
+  @override
+  Future<List<ProductModel>> getAll(String accessToken) async{
+    try{
+      final Response response = await _dio.post(
+          'https://96.9.67.188:4434/api/Products/GetAll',
+          data: {
+            'ids': null
+          },
+          options: Options(
+              headers: {
+                'Authorization': 'Bearer $accessToken',
+              }
+          )
       );
 
       if(response.statusCode == 200){

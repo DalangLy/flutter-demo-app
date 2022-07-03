@@ -1,5 +1,5 @@
 import '../models/stock_model.dart';
 
 abstract class IStockRemoteDataSource{
-  Future<List<StockModel>> getAll();
+  Future<List<StockModel>> getAll(String accessToken);
 }

@@ -1,9 +1,7 @@
-import '../entities/product.dart';
+import '../entities/create_product_entity.dart';
+import '../entities/product_entity.dart';
 
 abstract class IProductRepository{
-  Future<List<Product>> getAll(String accessToken);
-  Future<Product> getById(String id, String accessToken);
-  Future<void> delete(String id, String accessToken);
-  Future<void> create(Product product, String accessToken);
-  Future<void> update(Product product, String accessToken);
+  Future<List<ProductEntity>> getAll(String accessToken);
+  Future<void> create(CreateProductEntity product, String accessToken);
 }

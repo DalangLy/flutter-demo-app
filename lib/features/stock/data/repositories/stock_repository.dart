@@ -1,4 +1,4 @@
-import '../../domain/entities/stock.dart';
+import '../../domain/entities/stock_entity.dart';
 import '../../domain/repositories/i_stock_repository.dart';
 import '../data_sources/i_stock_remote_data_source.dart';
 
@@ -8,7 +8,7 @@ class StockRepository implements IStockRepository{
   StockRepository(this._remoteDataSource);
   
   @override
-  Future<void> create(Stock stock) {
+  Future<void> create(StockEntity stock) {
     // TODO: implement create
     throw UnimplementedError();
   }
@@ -20,18 +20,18 @@ class StockRepository implements IStockRepository{
   }
 
   @override
-  Future<List<Stock>> getAll() {
-    return _remoteDataSource.getAll();
+  Future<List<StockEntity>> getAll(String token) {
+    return _remoteDataSource.getAll(token);
   }
 
   @override
-  Future<Stock> getById(String id) {
+  Future<StockEntity> getById(String id) {
     // TODO: implement getById
     throw UnimplementedError();
   }
 
   @override
-  Future<void> update(Stock stock) {
+  Future<void> update(StockEntity stock) {
     // TODO: implement update
     throw UnimplementedError();
   }

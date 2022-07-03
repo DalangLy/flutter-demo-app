@@ -1,28 +1,29 @@
-import '../../../stock/data/models/stock_model.dart';
-import '../../../stock/domain/entities/stock.dart';
-import '../../domain/entities/product.dart';
+import '../../domain/entities/product_entity.dart';
 
-class ProductModel extends Product {
-  ProductModel(super.id, super.code, super.stockings, super.name, super.price,
-      super.description);
+class ProductModel extends ProductEntity{
+  ProductModel(super.id, super.code, super.stockings, super.name, super.price, super.description);
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) {
-
-    final dynamic itemSizeApplyingJson = json['stockings'];
-    final List<Stock> itemSizeApplyingModel =
-    itemSizeApplyingJson == null
-        ? []
-        : List<Stock>.from(itemSizeApplyingJson
-        .map<Stock>((itemSizeApplyingJson) =>
-        StockModel.fromJson(itemSizeApplyingJson)));
-
-    return ProductModel(
-      json['id'],
-      json['code'],
-      itemSizeApplyingModel,
-      json['name'],
-      (json['price'] as num).toDouble(),
-      json['description'],
-    );
+  factory ProductModel.fromJson(Map<String, dynamic> json){
+    return ProductModel(json['id'], json['code'], json['stockings'], json['name'], (json['price'] as num).toDouble(), json['description'],);
   }
+
+
+  //
+  // Map<String, dynamic> toJson(){
+  //   return {
+  //     'code': code,
+  //     'name': name,
+  //     'price': price,
+  //     'description': description,
+  //   };
+  // }
+  //
+  // factory ProductModel.fromEntity(ProductEntity product){
+  //   return ProductModel(
+  //     code: product.code,
+  //     name: product.name,
+  //     price: product.price,
+  //     description: product.description,
+  //   );
+  // }
 }

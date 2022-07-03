@@ -1,9 +1,9 @@
 import '../entities/ware.dart';
 
 abstract class IWareRepository{
-  Future<List<Ware>> getAll();
-  Future<Ware> getById(String id);
-  Future<void> delete(String id);
-  Future<void> create(Ware ware);
-  Future<void> update(Ware ware);
+  Future<List<Ware>> getAll(String accessToken);
+  Future<Ware> getById(String id, String accessToken);
+  Future<void> delete(String id, String accessToken);
+  Future<void> create(Ware ware, String accessToken);
+  Future<void> update(Ware ware, String accessToken);
 }

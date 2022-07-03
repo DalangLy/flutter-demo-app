@@ -27,8 +27,8 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => GetAllProductsBloc(GetAllProductsUseCase(ProductRepository(ProductRemoteDataSource(Dio()),), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
-        BlocProvider(create: (context) => GetAllStocksBloc(GetAllStocksUseCase(StockRepository(StockRemoteDataSource(Dio())))),),
-        BlocProvider(create: (context) => GetAllWaresBloc(GetAllWaresUseCase(WareRepository(WareRemoteDataSource(Dio())))),)
+        BlocProvider(create: (context) => GetAllStocksBloc(GetAllStocksUseCase(StockRepository(StockRemoteDataSource(Dio())), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
+        BlocProvider(create: (context) => GetAllWaresBloc(GetAllWaresUseCase(WareRepository(WareRemoteDataSource(Dio())), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),)
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

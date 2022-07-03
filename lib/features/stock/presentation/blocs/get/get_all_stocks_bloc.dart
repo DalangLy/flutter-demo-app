@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import '../../../domain/entities/stock.dart';
+import '../../../domain/entities/stock_entity.dart';
 import '../../../domain/use_cases/get_all_stocks_use_case.dart';
 
 part 'get_all_stocks_event.dart';
@@ -13,7 +13,7 @@ class GetAllStocksBloc extends Bloc<GetAllStocksEvent, GetAllStocksState> {
       if(event is GetAllStocks){
         emit(GetAllStocksInProgress());
         try{
-          final List<Stock> data = await _getAllStocksUseCase();
+          final List<StockEntity> data = await _getAllStocksUseCase();
           print('Get Success');
           emit(GetAllStocksSuccess(data));
         }catch(e){

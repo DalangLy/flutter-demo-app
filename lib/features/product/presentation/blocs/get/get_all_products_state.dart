@@ -15,7 +15,7 @@ class GetAllProductsInProgress extends GetAllProductsState {
 }
 
 class GetAllProductsSuccess extends GetAllProductsState {
-  final List<Product> data;
+  final List<ProductEntity> data;
   const GetAllProductsSuccess(this.data);
 
   @override

@@ -1,9 +1,9 @@
-import '../entities/stock.dart';
+import '../entities/stock_entity.dart';
 
 abstract class IStockRepository{
-  Future<List<Stock>> getAll();
-  Future<Stock> getById(String id);
+  Future<List<StockEntity>> getAll(String token);
+  Future<StockEntity> getById(String id);
   Future<void> delete(String id);
-  Future<void> create(Stock stock);
-  Future<void> update(Stock stock);
+  Future<void> create(StockEntity stock);
+  Future<void> update(StockEntity stock);
 }
