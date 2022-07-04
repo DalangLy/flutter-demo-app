@@ -1,3 +1,5 @@
+import 'package:demo_app/features/product/domain/entities/create_product_entity.dart';
+import 'package:demo_app/features/product/presentation/blocs/create/create_product_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/get/get_all_products_bloc.dart';
@@ -31,7 +33,14 @@ class _ProductPageState extends State<ProductPage> {
               children: [
                 Row(
                   children: [
-                    ElevatedButton(onPressed: (){}, child: const Icon(Icons.add),),
+                    ElevatedButton(onPressed: (){
+                      CreateProductEntity create = CreateProductEntity(
+                          "P-000-006",
+                          "Product Test Name 6",
+                          11,
+                          "Product Test 6 for demo");
+                      BlocProvider.of<CreateProductBloc>(context).create(create);
+                    }, child: const Icon(Icons.add),),
                   ],
                 ),
                 const Divider(),

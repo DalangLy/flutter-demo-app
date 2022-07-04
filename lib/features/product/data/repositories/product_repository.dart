@@ -11,7 +11,7 @@ class ProductRepository implements IProductRepository{
   ProductRepository(this._remoteDataSource);
 
   @override
-  Future<void> create(CreateProductEntity product, String accessToken) {
+  Future<String> create(CreateProductEntity product, String accessToken) {
     return _remoteDataSource.create(CreateProductModel.fromEntity(product), accessToken);
   }
 

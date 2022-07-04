@@ -1,3 +1,8 @@
+import 'package:demo_app/features/login/domain/use_cases/login_use_case.dart';
+import 'package:demo_app/features/login/presentation/blocs/login/login_bloc.dart';
+import 'package:demo_app/features/login/presentation/pages/login_page.dart';
+import 'package:demo_app/features/product/domain/use_cases/create_product_use_case.dart';
+import 'package:demo_app/features/product/presentation/blocs/create/create_product_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,9 +31,11 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => LoginBloc(LoginUseCase(LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
         BlocProvider(create: (context) => GetAllProductsBloc(GetAllProductsUseCase(ProductRepository(ProductRemoteDataSource(Dio()),), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
         BlocProvider(create: (context) => GetAllStocksBloc(GetAllStocksUseCase(StockRepository(StockRemoteDataSource(Dio())), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
-        BlocProvider(create: (context) => GetAllWaresBloc(GetAllWaresUseCase(WareRepository(WareRemoteDataSource(Dio())), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),)
+        BlocProvider(create: (context) => GetAllWaresBloc(GetAllWaresUseCase(WareRepository(WareRemoteDataSource(Dio())), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
+        BlocProvider(create: (context) => CreateProductBloc(CreateProductUseCase(ProductRepository(ProductRemoteDataSource(Dio())), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),)
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -36,7 +43,7 @@ class App extends StatelessWidget {
           useMaterial3: true,
           primarySwatch: Colors.blue,
         ),
-        home: const HomePage(),
+        home: const LoginPage(),
       ),
     );
   }

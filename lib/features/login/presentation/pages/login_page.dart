@@ -1,6 +1,7 @@
 import 'package:demo_app/features/login/domain/entities/login.dart';
 import 'package:demo_app/features/login/presentation/blocs/login/login_bloc.dart';
 import 'package:demo_app/features/product/presentation/pages/product_page.dart';
+import 'package:demo_app/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if(state is LoginSuccess){
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const ProductPage(),));
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const HomePage(),));
         }
       },
       child: Scaffold(

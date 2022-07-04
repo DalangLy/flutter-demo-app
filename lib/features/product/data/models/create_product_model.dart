@@ -5,7 +5,10 @@ class CreateProductModel extends CreateProductEntity{
 
   Map<String, dynamic> toJson(){
     return {
-
+      'name': name,
+      'price': price,
+      'description': description,
+      'code': code
     };
   }
 

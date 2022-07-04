@@ -10,10 +10,12 @@ class CreateProductUseCase{
 
   CreateProductUseCase(this._repository, this._loginRepository);
 
-  Future<void> create(CreateProductEntity product) async{
+  Future<void> call(CreateProductEntity product) async{
     String? token = await _hasToken();
     if(token == null) throw UnauthenticatedFailed('Unauthenticated');
-    return _repository.create(product, token);
+    final insertedId = _repository.create(product, token);
+    print(insertedId);
+    return null;
   }
 
   Future<String?> _hasToken() async{
