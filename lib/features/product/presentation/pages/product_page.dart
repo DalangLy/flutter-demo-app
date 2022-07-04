@@ -1,8 +1,12 @@
 import 'package:demo_app/features/product/domain/entities/create_product_entity.dart';
 import 'package:demo_app/features/product/presentation/blocs/create/create_product_bloc.dart';
+import 'package:demo_app/features/product/presentation/blocs/delete/delete_product_bloc.dart';
+import 'package:demo_app/features/product/presentation/blocs/get_by_id/get_product_by_id_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../domain/entities/update_product_entity.dart';
 import '../blocs/get/get_all_products_bloc.dart';
+import '../blocs/update/update_product_bloc.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({Key? key}) : super(key: key);
@@ -41,6 +45,14 @@ class _ProductPageState extends State<ProductPage> {
                           "Product Test 6 for demo");
                       BlocProvider.of<CreateProductBloc>(context).create(create);
                     }, child: const Icon(Icons.add),),
+                    ElevatedButton(onPressed: (){
+                      UpdateProductEntity create = UpdateProductEntity(
+                          "",
+                          "Product Test Name 6",
+                          11,
+                          "Product Test 6 for demo");
+                      BlocProvider.of<UpdateProductBloc>(context).update(create);
+                    }, child: const Icon(Icons.update),),
                   ],
                 ),
                 const Divider(),
@@ -65,9 +77,21 @@ class _ProductPageState extends State<ProductPage> {
                               DataCell(Text(e.price.toString())),
                               DataCell(Text(e.description.toString())),
                               DataCell(
-                                IconButton(
-                                  onPressed: (){},
-                                  icon: const Icon(Icons.delete, color: Colors.red,),
+                                Column(
+                                  children: [
+                                    IconButton(
+                                      onPressed: (){
+                                        BlocProvider.of<GetProductByIdBloc>(context).getById(e.id);
+                                      },
+                                      icon: const Icon(Icons.visibility,),
+                                    ),
+                                    IconButton(
+                                      onPressed: (){
+                                        BlocProvider.of<DeleteProductBloc>(context).delete(e.id);
+                                      },
+                                      icon: const Icon(Icons.delete, color: Colors.red,),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],

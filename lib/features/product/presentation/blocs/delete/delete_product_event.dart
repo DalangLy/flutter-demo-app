@@ -5,7 +5,9 @@ abstract class DeleteProductEvent extends Equatable {
 }
 
 class DeleteProduct extends DeleteProductEvent {
-  const DeleteProduct();
+  final String id;
+
+  const DeleteProduct(this.id);
 
   @override
   List<Object> get props => [];

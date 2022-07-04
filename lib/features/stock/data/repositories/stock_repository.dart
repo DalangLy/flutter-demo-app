@@ -8,15 +8,14 @@ class StockRepository implements IStockRepository{
   StockRepository(this._remoteDataSource);
   
   @override
-  Future<void> create(StockEntity stock) {
+  Future<String> create(StockEntity stock, String accessToken) {
     // TODO: implement create
     throw UnimplementedError();
   }
 
   @override
-  Future<void> delete(String id) {
-    // TODO: implement delete
-    throw UnimplementedError();
+  Future<String> delete(String id, String accessToken) {
+    return _remoteDataSource.delete(id, accessToken);
   }
 
   @override
@@ -25,13 +24,13 @@ class StockRepository implements IStockRepository{
   }
 
   @override
-  Future<StockEntity> getById(String id) {
+  Future<StockEntity> getById(String id, String accessToken) {
     // TODO: implement getById
     throw UnimplementedError();
   }
 
   @override
-  Future<void> update(StockEntity stock) {
+  Future<String> update(StockEntity stock, String accessToken) {
     // TODO: implement update
     throw UnimplementedError();
   }

@@ -22,7 +22,6 @@ import 'features/ware/data/data_sources/ware_remote_data_source.dart';
 import 'features/ware/data/repositories/ware_repository.dart';
 import 'features/ware/domain/use_cases/get_all_wares_use_case.dart';
 import 'features/ware/presentation/blocs/get/get_all_wares_bloc.dart';
-import 'home_page.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);

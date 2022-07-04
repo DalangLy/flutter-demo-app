@@ -31,4 +31,30 @@ class StockRemoteDataSource implements IStockRemoteDataSource{
       throw Exception();
     }
   }
+
+  @override
+  Future<String> delete(String id, String accessToken) async{
+    try{
+      final Response response = await _dio.delete(
+        'https://96.9.67.188:4434/api/stockings',
+        data: {
+          "ids":[
+            id
+          ]
+        },
+        options: Options(
+            headers: {
+              'Authorization': 'Bearer $accessToken',
+            }
+        ),
+      );
+      if(response.statusCode == 200){
+        final List<dynamic> parsed = response.data['data'];
+        return parsed[0];
+      }
+      throw Exception();
+    }catch(e){
+      throw Exception();
+    }
+  }
 }
