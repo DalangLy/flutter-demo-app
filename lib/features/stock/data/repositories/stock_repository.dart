@@ -1,6 +1,10 @@
+import 'package:demo_app/features/stock/domain/entities/create_stock_entity.dart';
+import 'package:demo_app/features/stock/domain/entities/update_stock_entity.dart';
+
 import '../../domain/entities/stock_entity.dart';
 import '../../domain/repositories/i_stock_repository.dart';
 import '../data_sources/i_stock_remote_data_source.dart';
+import '../models/update_stock_model.dart';
 
 class StockRepository implements IStockRepository{
   final IStockRemoteDataSource _remoteDataSource;
@@ -8,7 +12,7 @@ class StockRepository implements IStockRepository{
   StockRepository(this._remoteDataSource);
   
   @override
-  Future<String> create(StockEntity stock, String accessToken) {
+  Future<String> create(CreateStockEntity stock, String accessToken) {
     // TODO: implement create
     throw UnimplementedError();
   }
@@ -30,8 +34,7 @@ class StockRepository implements IStockRepository{
   }
 
   @override
-  Future<String> update(StockEntity stock, String accessToken) {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<String> update(UpdateStockEntity stock, String accessToken) {
+    return _remoteDataSource.update(UpdateStockModel.fromEntity(stock), accessToken);
   }
 }
