@@ -1,8 +1,8 @@
 import '../../../stock/data/models/stock_model.dart';
 import '../../../stock/domain/entities/stock_entity.dart';
-import '../../domain/entities/ware.dart';
+import '../../domain/entities/ware_entity.dart';
 
-class WareModel extends Ware {
+class WareModel extends WareEntity {
   WareModel(
       super.id, super.code, super.stockings, super.name, super.description);
 

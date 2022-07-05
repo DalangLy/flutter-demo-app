@@ -1,5 +1,8 @@
-import '../../../login/data/data_sources/i_login_local_data_source.dart';
-import '../../domain/entities/ware.dart';
+import 'package:demo_app/features/ware/data/models/create_ware_model.dart';
+import 'package:demo_app/features/ware/data/models/update_ware_model.dart';
+import 'package:demo_app/features/ware/domain/entities/create_ware_entity.dart';
+import 'package:demo_app/features/ware/domain/entities/update_ware_entity.dart';
+import '../../domain/entities/ware_entity.dart';
 import '../../domain/repositories/i_ware_repository.dart';
 import '../data_sources/i_ware_remote_data_source.dart';
 
@@ -9,31 +12,27 @@ class WareRepository implements IWareRepository{
   WareRepository(this._remoteDataSource,);
 
   @override
-  Future<void> create(Ware ware, String accessToken) {
-    // TODO: implement create
-    throw UnimplementedError();
+  Future<String> create(CreateWareEntity ware, String accessToken) {
+    return _remoteDataSource.create(CreateWareModel.fromEntity(ware), accessToken);
   }
 
   @override
-  Future<void> delete(String id, String accessToken) {
-    // TODO: implement delete
-    throw UnimplementedError();
+  Future<String> delete(String id, String accessToken) {
+    return _remoteDataSource.delete(id, accessToken);
   }
 
   @override
-  Future<List<Ware>> getAll(String accessToken) {
+  Future<List<WareEntity>> getAll(String accessToken) {
     return _remoteDataSource.getAll(accessToken);
   }
 
   @override
-  Future<Ware> getById(String id, String accessToken) {
-    // TODO: implement getById
-    throw UnimplementedError();
+  Future<WareEntity> getById(String id, String accessToken) {
+    return _remoteDataSource.getById(id, accessToken);
   }
 
   @override
-  Future<void> update(Ware ware, String accessToken) {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<String> update(UpdateWareEntity ware, String accessToken) {
+    return _remoteDataSource.update(UpdateWareModel.fromEntity(ware), accessToken);
   }
 }
