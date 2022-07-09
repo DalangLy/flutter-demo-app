@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../stock/presentation/blocs/create/create_ware_bloc.dart';
-import '../../../stock/presentation/blocs/update/update_ware_bloc.dart';
 import '../../domain/entities/create_ware_entity.dart';
 import '../../domain/entities/update_ware_entity.dart';
 import '../blocs/delete/delete_ware_bloc.dart';
 import '../blocs/get/get_all_wares_bloc.dart';
+import '../blocs/update/update_ware_bloc.dart';
 
 class WarePage extends StatelessWidget {
   const WarePage({Key? key}) : super(key: key);

@@ -4,8 +4,8 @@ import 'package:demo_app/features/ware/domain/entities/update_ware_entity.dart';
 import 'package:demo_app/features/ware/presentation/blocs/get/get_all_wares_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../ware/presentation/blocs/update/update_ware_bloc.dart';
 import '../blocs/create/create_ware_bloc.dart';
-import '../blocs/update/update_ware_bloc.dart';
 
 class StockPage extends StatelessWidget {
   const StockPage({Key? key}) : super(key: key);
