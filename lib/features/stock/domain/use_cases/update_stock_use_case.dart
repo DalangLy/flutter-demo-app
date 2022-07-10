@@ -1,4 +1,4 @@
-import '../../../../core/errors/UnauthenticatedFailure.dart';
+import '../../../../core/errors/unauthenticated_failure.dart';
 import '../../../login/domain/repositories/i_login_repository.dart';
 import '../../data/models/update_stock_model.dart';
 import '../entities/update_stock_entity.dart';
@@ -12,7 +12,7 @@ class UpdateStockUseCase{
 
   Future<void> call(UpdateStockEntity entity) async{
     String? token = await _hasToken();
-    if(token == null) throw UnauthenticatedFailed('Unauthenticated');
+    if(token == null) throw UnauthenticatedFailure('Unauthenticated');
     final updatedId = _repository.update(UpdateStockModel.fromEntity(entity), token);
     return null;
   }

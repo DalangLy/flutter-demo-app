@@ -1,6 +1,6 @@
 import 'package:demo_app/features/product/domain/repositories/i_product_repository.dart';
 
-import '../../../../core/errors/UnauthenticatedFailure.dart';
+import '../../../../core/errors/unauthenticated_failure.dart';
 import '../../../login/domain/repositories/i_login_repository.dart';
 
 class DeleteProductUseCase{
@@ -11,7 +11,7 @@ class DeleteProductUseCase{
 
   Future<void> call(String id) async{
     String? token = await _hasToken();
-    if(token == null) throw UnauthenticatedFailed('Unauthenticated');
+    if(token == null) throw UnauthenticatedFailure('Unauthenticated');
     String insertedId = await _repository.delete(id, token);
     return null;
   }

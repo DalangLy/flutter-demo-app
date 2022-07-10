@@ -1,4 +1,4 @@
-import 'package:demo_app/core/errors/UnauthenticatedFailure.dart';
+import 'package:demo_app/core/errors/unauthenticated_failure.dart';
 import '../../../login/domain/repositories/i_login_repository.dart';
 import '../entities/product_entity.dart';
 import '../repositories/i_product_repository.dart';
@@ -11,7 +11,7 @@ class GetAllProductsUseCase{
 
   Future<List<ProductEntity>> call() async{
     String? token = await _hasToken();
-    if(token == null) throw UnauthenticatedFailed('Unauthenticated');
+    if(token == null) throw UnauthenticatedFailure('Unauthenticated');
     return await _repository.getAll(token);
   }
 

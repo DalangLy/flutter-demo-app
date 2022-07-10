@@ -1,5 +1,5 @@
 import 'package:demo_app/features/product/domain/entities/product_entity.dart';
-import '../../../../core/errors/UnauthenticatedFailure.dart';
+import '../../../../core/errors/unauthenticated_failure.dart';
 import '../../../login/domain/repositories/i_login_repository.dart';
 import '../repositories/i_product_repository.dart';
 
@@ -11,7 +11,7 @@ class GetProductByIdUseCase{
 
   Future<ProductEntity> call(String id) async{
     String? token = await _hasToken();
-    if(token == null) throw UnauthenticatedFailed('Unauthenticated');
+    if(token == null) throw UnauthenticatedFailure('Unauthenticated');
     return await _repository.getById(id, token);
   }
 

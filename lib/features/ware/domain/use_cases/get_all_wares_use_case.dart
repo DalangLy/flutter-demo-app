@@ -1,4 +1,4 @@
-import '../../../../core/errors/UnauthenticatedFailure.dart';
+import '../../../../core/errors/unauthenticated_failure.dart';
 import '../../../login/domain/repositories/i_login_repository.dart';
 import '../entities/ware_entity.dart';
 import '../repositories/i_ware_repository.dart';
@@ -11,7 +11,7 @@ class GetAllWaresUseCase{
 
   Future<List<WareEntity>> call() async{
     String? token = await _hasToken();
-    if(token == null) throw UnauthenticatedFailed('Unauthenticated');
+    if(token == null) throw UnauthenticatedFailure('Unauthenticated');
     return _repository.getAll(token);
   }
 

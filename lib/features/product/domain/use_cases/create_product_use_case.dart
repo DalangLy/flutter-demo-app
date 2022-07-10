@@ -1,7 +1,7 @@
 import 'package:demo_app/features/login/domain/repositories/i_login_repository.dart';
 import 'package:demo_app/features/product/domain/repositories/i_product_repository.dart';
 
-import '../../../../core/errors/UnauthenticatedFailure.dart';
+import '../../../../core/errors/unauthenticated_failure.dart';
 import '../entities/create_product_entity.dart';
 
 class CreateProductUseCase{
@@ -12,7 +12,7 @@ class CreateProductUseCase{
 
   Future<void> call(CreateProductEntity product) async{
     String? token = await _hasToken();
-    if(token == null) throw UnauthenticatedFailed('Unauthenticated');
+    if(token == null) throw UnauthenticatedFailure('Unauthenticated');
     final insertedId = _repository.create(product, token);
     return null;
   }
