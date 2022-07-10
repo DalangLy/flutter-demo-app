@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'package:demo_app/core/app_config.dart';
 import 'package:demo_app/features/stock/data/models/create_for_product_model.dart';
 import 'package:demo_app/features/stock/data/models/create_stock_model.dart';
 import 'package:demo_app/features/stock/data/models/transfer_stock_model.dart';
 import 'package:demo_app/features/stock/data/models/update_stock_model.dart';
 import 'package:dio/dio.dart';
+import '../../../../core/errors/unauthenticated_failure.dart';
 import '../models/stock_model.dart';
 import 'i_stock_remote_data_source.dart';
 
@@ -16,7 +18,7 @@ class StockRemoteDataSource implements IStockRemoteDataSource{
   Future<List<StockModel>> getAll(String accessToken) async{
     try{
       final Response response = await _dio.post(
-          'https://96.9.67.188:4434/api/stockings/getall',
+          '$baseUrl/api/stockings/getall',
           data: {
 
           },
@@ -31,6 +33,9 @@ class StockRemoteDataSource implements IStockRemoteDataSource{
         final List<dynamic> parsed = response.data['data'];
         return parsed.map<StockModel>((json) => StockModel.fromJson(json)).toList();
       }
+      else if(response.statusCode == 401){
+        throw UnauthenticatedFailure('UnAuthentication');
+      }
       throw Exception();
     }catch(e){
       throw Exception();
@@ -41,12 +46,14 @@ class StockRemoteDataSource implements IStockRemoteDataSource{
   Future<String> delete(String id, String accessToken) async{
     try{
       final Response response = await _dio.delete(
-        'https://96.9.67.188:4434/api/stockings',
-        data: {
-          "ids":[
-            id
-          ]
-        },
+        '$baseUrl/api/stockings',
+        data: json.encode(
+            {
+              "ids":[
+                id
+              ]
+            }
+        ),
         options: Options(
             headers: {
               'Authorization': 'Bearer $accessToken',
@@ -57,6 +64,9 @@ class StockRemoteDataSource implements IStockRemoteDataSource{
         final List<dynamic> parsed = response.data['data'];
         return parsed[0];
       }
+      else if(response.statusCode == 401){
+        throw UnauthenticatedFailure('UnAuthentication');
+      }
       throw Exception();
     }catch(e){
       throw Exception();
@@ -66,17 +76,16 @@ class StockRemoteDataSource implements IStockRemoteDataSource{
   @override
   Future<String> create(CreateStockModel model, String accessToken) async{
     try{
-      final dd = json.encode(
-          {
-            'commands':
-            [
-              model.toJson()
-            ]
-          }
-      );
       final Response response = await _dio.post(
-          'https://96.9.67.188:4434/api/stockings',
-          data: dd,
+          '$baseUrl/api/stockings',
+          data: json.encode(
+              {
+                'commands':
+                [
+                  model.toJson()
+                ]
+              }
+          ),
           options: Options(
               headers: {
                 'Authorization': 'Bearer $accessToken',
@@ -88,6 +97,9 @@ class StockRemoteDataSource implements IStockRemoteDataSource{
         final List<dynamic> parsed = response.data['data'];
         return parsed[0];
       }
+      else if(response.statusCode == 401){
+        throw UnauthenticatedFailure('UnAuthentication');
+      }
       throw Exception();
     }catch(e){
       throw Exception();
@@ -97,17 +109,16 @@ class StockRemoteDataSource implements IStockRemoteDataSource{
   @override
   Future<String> update(UpdateStockModel model, String accessToken) async{
     try{
-      final dd = json.encode(
-          {
-            'commands':
-            [
-              model.toJson()
-            ]
-          }
-      );
       final Response response = await _dio.put(
-          'https://96.9.67.188:4434/api/stockings',
-          data: dd,
+          '$baseUrl/api/stockings',
+          data: json.encode(
+              {
+                'commands':
+                [
+                  model.toJson()
+                ]
+              }
+          ),
           options: Options(
               headers: {
                 'Authorization': 'Bearer $accessToken',
@@ -118,6 +129,9 @@ class StockRemoteDataSource implements IStockRemoteDataSource{
       if(response.statusCode == 200){
         final List<dynamic> parsed = response.data['data'];
         return parsed[0];
+      }
+      else if(response.statusCode == 401){
+        throw UnauthenticatedFailure('UnAuthentication');
       }
       throw Exception();
     }catch(e){
@@ -129,7 +143,7 @@ class StockRemoteDataSource implements IStockRemoteDataSource{
   Future<StockModel> getById(String id, String accessToken) async{
     try{
       final Response response = await _dio.get(
-        'https://96.9.67.188:4434/api/stockings/$id',
+        '$baseUrl/api/stockings/$id',
         options: Options(
             headers: {
               'Authorization': 'Bearer $accessToken',
@@ -141,6 +155,9 @@ class StockRemoteDataSource implements IStockRemoteDataSource{
         if(parsed == null) throw Exception();
         return StockModel.fromJson(parsed);
       }
+      else if(response.statusCode == 401){
+        throw UnauthenticatedFailure('UnAuthentication');
+      }
       throw Exception();
     }catch(e){
       throw Exception();
@@ -150,17 +167,16 @@ class StockRemoteDataSource implements IStockRemoteDataSource{
   @override
   Future<String> transfer(TransferStockModel model, String accessToken) async{
     try{
-      final dd = json.encode(
-          {
-            'commands':
-            [
-              model.toJson()
-            ]
-          }
-      );
       final Response response = await _dio.put(
-        'https://96.9.67.188:4434/api/stockings',
-        data: dd,
+        '$baseUrl/api/stockings',
+        data: json.encode(
+            {
+              'commands':
+              [
+                model.toJson()
+              ]
+            }
+        ),
         options: Options(
             headers: {
               'Authorization': 'Bearer $accessToken',
@@ -171,6 +187,9 @@ class StockRemoteDataSource implements IStockRemoteDataSource{
         final List<dynamic> parsed = response.data['data'];
         return parsed[0];
       }
+      else if(response.statusCode == 401){
+        throw UnauthenticatedFailure('UnAuthentication');
+      }
       throw Exception();
     }catch(e){
       throw Exception();
@@ -180,17 +199,16 @@ class StockRemoteDataSource implements IStockRemoteDataSource{
   @override
   Future<String> createForNewProduct(CreateForProductModel model, String accessToken) async{
     try{
-      final dd = json.encode(
-          {
-            'commands':
-            [
-              model.toJson()
-            ]
-          }
-      );
       final Response response = await _dio.post(
-          'https://96.9.67.188:4434/api/stockings/newproduct',
-          data: dd,
+          '$baseUrl/api/stockings/newproduct',
+          data: json.encode(
+              {
+                'commands':
+                [
+                  model.toJson()
+                ]
+              }
+          ),
           options: Options(
               headers: {
                 'Authorization': 'Bearer $accessToken',
@@ -202,6 +220,9 @@ class StockRemoteDataSource implements IStockRemoteDataSource{
         final List<dynamic> parsed = response.data['data'];
         return parsed[0];
       }
+      else if(response.statusCode == 401){
+        throw UnauthenticatedFailure('UnAuthentication');
+      }
       throw Exception();
     }catch(e){
       throw Exception();
@@ -211,17 +232,16 @@ class StockRemoteDataSource implements IStockRemoteDataSource{
   @override
   Future<StockModel> getByProduct(String productId, String accessToken) async{
     try{
-      final dd = json.encode(
-          {
-            'productids':
-            [
-              productId
-            ]
-          }
-      );
       final Response response = await _dio.post(
-        'https://96.9.67.188:4434/api/stockings/GetByProducts',
-        data: dd,
+        '$baseUrl/api/stockings/GetByProducts',
+        data: json.encode(
+            {
+              'productids':
+              [
+                productId
+              ]
+            }
+        ),
         options: Options(
             headers: {
               'Authorization': 'Bearer $accessToken',
@@ -232,6 +252,9 @@ class StockRemoteDataSource implements IStockRemoteDataSource{
         final dynamic parsed = response.data['data'];
         if(parsed == null) throw Exception();
         return StockModel.fromJson(parsed);
+      }
+      else if(response.statusCode == 401){
+        throw UnauthenticatedFailure('UnAuthentication');
       }
       throw Exception();
     }catch(e){
@@ -242,17 +265,16 @@ class StockRemoteDataSource implements IStockRemoteDataSource{
   @override
   Future<StockModel> getByProductCode(String productCode, String accessToken) async{
     try{
-      final dd = json.encode(
-          {
-            'productcodes':
-            [
-              productCode
-            ]
-          }
-      );
       final Response response = await _dio.post(
-        'https://96.9.67.188:4434/api/stockings/GetByProductCodes',
-        data: dd,
+        '$baseUrl/api/stockings/GetByProductCodes',
+        data: json.encode(
+            {
+              'productcodes':
+              [
+                productCode
+              ]
+            }
+        ),
         options: Options(
             headers: {
               'Authorization': 'Bearer $accessToken',
@@ -264,6 +286,9 @@ class StockRemoteDataSource implements IStockRemoteDataSource{
         if(parsed == null) throw Exception();
         return StockModel.fromJson(parsed);
       }
+      else if(response.statusCode == 401){
+        throw UnauthenticatedFailure('UnAuthentication');
+      }
       throw Exception();
     }catch(e){
       throw Exception();
@@ -273,17 +298,16 @@ class StockRemoteDataSource implements IStockRemoteDataSource{
   @override
   Future<StockModel> getByWare(String wareId, String accessToken) async{
     try{
-      final dd = json.encode(
-          {
-            'wareids':
-            [
-              wareId
-            ]
-          }
-      );
       final Response response = await _dio.post(
-        'https://96.9.67.188:4434/api/stockings/GetByWares',
-        data: dd,
+        '$baseUrl/api/stockings/GetByWares',
+        data: json.encode(
+            {
+              'wareids':
+              [
+                wareId
+              ]
+            }
+        ),
         options: Options(
             headers: {
               'Authorization': 'Bearer $accessToken',
@@ -294,6 +318,9 @@ class StockRemoteDataSource implements IStockRemoteDataSource{
         final dynamic parsed = response.data['data'];
         if(parsed == null) throw Exception();
         return StockModel.fromJson(parsed);
+      }
+      else if(response.statusCode == 401){
+        throw UnauthenticatedFailure('UnAuthentication');
       }
       throw Exception();
     }catch(e){

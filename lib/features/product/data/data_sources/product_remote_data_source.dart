@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:demo_app/core/app_config.dart';
+import 'package:demo_app/core/errors/unauthenticated_failure.dart';
 import 'package:demo_app/features/product/data/models/create_product_model.dart';
 import 'package:demo_app/features/product/data/models/product_model.dart';
 import 'package:demo_app/features/product/data/models/update_product_model.dart';
@@ -6,6 +8,7 @@ import 'package:dio/dio.dart';
 import 'i_product_remote_data_source.dart';
 
 class ProductRemoteDataSource implements IProductRemoteDataSource{
+
   final Dio _dio;
 
   ProductRemoteDataSource(this._dio);
@@ -13,17 +16,16 @@ class ProductRemoteDataSource implements IProductRemoteDataSource{
   @override
   Future<String> create(CreateProductModel product, String accessToken) async{
     try{
-      final dd = json.encode(
-        {
-          'commands':
-          [
-            product.toJson()
-          ]
-        }
-      );
       final Response response = await _dio.post(
-          'https://96.9.67.188:4434/api/Products',
-          data: dd,
+          '$baseUrl/api/Products',
+          data: json.encode(
+              {
+                'commands':
+                [
+                  product.toJson()
+                ]
+              }
+          ),
           options: Options(
               headers: {
                 'Authorization': 'Bearer $accessToken',
@@ -34,6 +36,9 @@ class ProductRemoteDataSource implements IProductRemoteDataSource{
       if(response.statusCode == 200){
         final List<dynamic> parsed = response.data['data'];
         return parsed[0];
+      }
+      else if(response.statusCode == 401){
+        throw UnauthenticatedFailure('UnAuthentication');
       }
       throw Exception();
     }catch(e){
@@ -45,10 +50,12 @@ class ProductRemoteDataSource implements IProductRemoteDataSource{
   Future<List<ProductModel>> getAll(String accessToken) async{
     try{
       final Response response = await _dio.post(
-          'https://96.9.67.188:4434/api/Products/GetAll',
-          data: {
-            'ids': null
-          },
+          '$baseUrl/api/Products/GetAll',
+          data: json.encode(
+              {
+                'ids': null
+              }
+          ),
           options: Options(
               headers: {
                 'Authorization': 'Bearer $accessToken',
@@ -60,6 +67,9 @@ class ProductRemoteDataSource implements IProductRemoteDataSource{
         final List<dynamic> parsed = response.data['data'];
         return parsed.map<ProductModel>((json) => ProductModel.fromJson(json)).toList();
       }
+      else if(response.statusCode == 401){
+        throw UnauthenticatedFailure('UnAuthentication');
+      }
       throw Exception();
     }catch(e){
       throw Exception();
@@ -70,12 +80,14 @@ class ProductRemoteDataSource implements IProductRemoteDataSource{
   Future<String> delete(String id, String accessToken) async{
     try{
       final Response response = await _dio.delete(
-        'https://96.9.67.188:4434/api/Products',
-        data: {
-          "ids":[
-            id
-          ]
-        },
+        '$baseUrl/api/Products',
+        data: json.encode(
+            {
+              "ids":[
+                id
+              ]
+            }
+        ),
         options: Options(
             headers: {
               'Authorization': 'Bearer $accessToken',
@@ -85,6 +97,9 @@ class ProductRemoteDataSource implements IProductRemoteDataSource{
       if(response.statusCode == 200){
         final List<dynamic> parsed = response.data['data'];
         return parsed[0];
+      }
+      else if(response.statusCode == 401){
+        throw UnauthenticatedFailure('UnAuthentication');
       }
       throw Exception();
     }catch(e){
@@ -96,7 +111,7 @@ class ProductRemoteDataSource implements IProductRemoteDataSource{
   Future<ProductModel> getById(String id, String accessToken) async{
     try{
       final Response response = await _dio.get(
-        'https://96.9.67.188:4434/api/Products/$id',
+        '$baseUrl/api/Products/$id',
         options: Options(
             headers: {
               'Authorization': 'Bearer $accessToken',
@@ -108,6 +123,9 @@ class ProductRemoteDataSource implements IProductRemoteDataSource{
         if(parsed == null) throw Exception();
         return ProductModel.fromJson(parsed);
       }
+      else if(response.statusCode == 401){
+        throw UnauthenticatedFailure('UnAuthentication');
+      }
       throw Exception();
     }catch(e){
       throw Exception();
@@ -117,17 +135,16 @@ class ProductRemoteDataSource implements IProductRemoteDataSource{
   @override
   Future<String> update(UpdateProductModel product, String accessToken) async{
     try{
-      final dd = json.encode(
-          {
-            'commands':
-            [
-              product.toJson()
-            ]
-          }
-      );
       final Response response = await _dio.put(
-          'https://96.9.67.188:4434/api/Products',
-          data: dd,
+          '$baseUrl/api/Products',
+          data: json.encode(
+              {
+                'commands':
+                [
+                  product.toJson()
+                ]
+              }
+          ),
           options: Options(
               headers: {
                 'Authorization': 'Bearer $accessToken',
@@ -138,6 +155,9 @@ class ProductRemoteDataSource implements IProductRemoteDataSource{
       if(response.statusCode == 200){
         final List<dynamic> parsed = response.data['data'];
         return parsed[0];
+      }
+      else if(response.statusCode == 401){
+        throw UnauthenticatedFailure('UnAuthentication');
       }
       throw Exception();
     }catch(e){
