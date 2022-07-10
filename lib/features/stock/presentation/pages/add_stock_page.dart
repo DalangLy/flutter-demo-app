@@ -1,21 +1,21 @@
-import 'package:demo_app/features/product/domain/entities/create_product_entity.dart';
-import 'package:demo_app/features/product/presentation/blocs/create/create_product_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AddProductPage extends StatefulWidget {
-  const AddProductPage({Key? key}) : super(key: key);
+import '../../domain/entities/create_stock_entity.dart';
+import '../blocs/create/create_stock_bloc.dart';
+
+class AddStockPage extends StatefulWidget {
+  const AddStockPage({Key? key}) : super(key: key);
 
   @override
-  State<AddProductPage> createState() => _AddProductPageState();
+  State<AddStockPage> createState() => _AddStockPageState();
 }
 
-class _AddProductPageState extends State<AddProductPage> {
+class _AddStockPageState extends State<AddStockPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late String _name;
-  late double _price;
-  late String _description;
-  late String _code;
+  late String _productCode;
+  late String _wareCode;
+  late int _quantity;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,16 +27,16 @@ class _AddProductPageState extends State<AddProductPage> {
               children: [
                 TextFormField(
                   decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    label: Text('Name')
+                      border: OutlineInputBorder(),
+                      label: Text('Product Code')
                   ),
                   onSaved: (value){
                     if(value == null) return;
-                    _name = value;
+                    _productCode = value;
                   },
                   validator: (value){
                     if(value == null || value.isEmpty){
-                      return 'please input name';
+                      return 'please input product code';
                     }
                     return null;
                   },
@@ -45,16 +45,15 @@ class _AddProductPageState extends State<AddProductPage> {
                 TextFormField(
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      label: Text('Price')
+                      label: Text('Ware Code')
                   ),
-                  keyboardType: TextInputType.number,
                   onSaved: (value){
                     if(value == null) return;
-                    _price = (value as num).toDouble();
+                    _wareCode = value;
                   },
                   validator: (value){
                     if(value == null || value.isEmpty){
-                      return 'please input price';
+                      return 'please input ware code';
                     }
                     return null;
                   },
@@ -63,30 +62,13 @@ class _AddProductPageState extends State<AddProductPage> {
                 TextFormField(
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      label: Text('Code')
-                  ),
-                  onSaved: (value){
-                    if(value == null) return;
-                    _code = value;
-                  },
-                  validator: (value){
-                    if(value == null || value.isEmpty){
-                      return 'please input code';
-                    }
-                    return null;
-                  },
-                ),
-                const Divider(color: Colors.transparent,),
-                TextFormField(
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      label: Text('Description')
+                      label: Text('Quantity')
                   ),
                   minLines: 3,
                   maxLength: 10,
                   onSaved: (value){
                     if(value == null) return;
-                    _description = value;
+                    _quantity = (value as num).toInt();
                   },
                 ),
                 const Divider(color: Colors.transparent,),
@@ -95,8 +77,8 @@ class _AddProductPageState extends State<AddProductPage> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: (){
-                      CreateProductEntity createEntity = CreateProductEntity(_code, _name, _price, _description);
-                      BlocProvider.of<CreateProductBloc>(context).create(createEntity);
+                      CreateStockEntity createEntity = CreateStockEntity(_productCode, _wareCode, _quantity);
+                      BlocProvider.of<CreateStockBloc>(context).createStock(createEntity);
                     },
                     child: const Text('Save'),
                   ),

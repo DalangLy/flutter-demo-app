@@ -1,19 +1,18 @@
-import 'package:demo_app/features/product/domain/entities/create_product_entity.dart';
-import 'package:demo_app/features/product/presentation/blocs/create/create_product_bloc.dart';
+import 'package:demo_app/features/stock/presentation/blocs/create/create_ware_bloc.dart';
+import 'package:demo_app/features/ware/domain/entities/create_ware_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AddProductPage extends StatefulWidget {
-  const AddProductPage({Key? key}) : super(key: key);
+class AddWarePage extends StatefulWidget {
+  const AddWarePage({Key? key}) : super(key: key);
 
   @override
-  State<AddProductPage> createState() => _AddProductPageState();
+  State<AddWarePage> createState() => _AddWarePageState();
 }
 
-class _AddProductPageState extends State<AddProductPage> {
+class _AddWarePageState extends State<AddWarePage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late String _name;
-  late double _price;
   late String _description;
   late String _code;
   @override
@@ -27,8 +26,8 @@ class _AddProductPageState extends State<AddProductPage> {
               children: [
                 TextFormField(
                   decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    label: Text('Name')
+                      border: OutlineInputBorder(),
+                      label: Text('Name')
                   ),
                   onSaved: (value){
                     if(value == null) return;
@@ -37,24 +36,6 @@ class _AddProductPageState extends State<AddProductPage> {
                   validator: (value){
                     if(value == null || value.isEmpty){
                       return 'please input name';
-                    }
-                    return null;
-                  },
-                ),
-                const Divider(color: Colors.transparent,),
-                TextFormField(
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      label: Text('Price')
-                  ),
-                  keyboardType: TextInputType.number,
-                  onSaved: (value){
-                    if(value == null) return;
-                    _price = (value as num).toDouble();
-                  },
-                  validator: (value){
-                    if(value == null || value.isEmpty){
-                      return 'please input price';
                     }
                     return null;
                   },
@@ -95,8 +76,8 @@ class _AddProductPageState extends State<AddProductPage> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: (){
-                      CreateProductEntity createEntity = CreateProductEntity(_code, _name, _price, _description);
-                      BlocProvider.of<CreateProductBloc>(context).create(createEntity);
+                      CreateWareEntity createEntity = CreateWareEntity(_name, _description, _code);
+                      BlocProvider.of<CreateWareBloc>(context).create(createEntity);
                     },
                     child: const Text('Save'),
                   ),
