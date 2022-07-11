@@ -1,3 +1,4 @@
+import 'package:demo_app/core/errors/failure.dart';
 import 'package:demo_app/features/login/domain/repositories/i_login_repository.dart';
 import 'package:demo_app/features/product/domain/repositories/i_product_repository.dart';
 
@@ -13,8 +14,15 @@ class CreateProductUseCase{
   Future<void> call(CreateProductEntity product) async{
     String? token = await _hasToken();
     if(token == null) throw UnauthenticatedFailure('Unauthenticated');
-    final insertedId = _repository.create(product, token);
-    return null;
+    try{
+      final insertedId = _repository.create(product, token);
+      return null;
+    }
+    on Failure{
+      rethrow;
+    }catch(e){
+      throw Exception(e);
+    }
   }
 
   Future<String?> _hasToken() async{

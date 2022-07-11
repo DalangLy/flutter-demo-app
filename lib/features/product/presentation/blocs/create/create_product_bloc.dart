@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:demo_app/core/errors/failure.dart';
+import 'package:demo_app/core/errors/unauthenticated_failure.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../domain/entities/create_product_entity.dart';
@@ -16,7 +18,13 @@ class CreateProductBloc extends Bloc<CreateProductEvent, CreateProductState> {
           emit(CreateProductInProgress());
           final result = await _createProductUseCase(event.createProduct);
           emit(CreateProductSuccess());
-        }catch(e){
+        }
+        on Failure catch(e){
+          if(e is UnauthenticatedFailure){
+            emit(UnAuthorized());
+          }
+        }
+        catch(e){
           emit(const CreateProductFailed('message '));
         }
       }

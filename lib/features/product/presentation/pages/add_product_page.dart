@@ -1,3 +1,4 @@
+import 'package:demo_app/features/login/presentation/pages/login_page.dart';
 import 'package:demo_app/features/product/domain/entities/create_product_entity.dart';
 import 'package:demo_app/features/product/presentation/blocs/create/create_product_bloc.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,9 @@ class _AddProductPageState extends State<AddProductPage> {
             final FormState? form = _formKey.currentState;
             if(form == null) return;
             form.reset();
+        }
+        else if(state is UnAuthorized){
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const LoginPage(),));
         }
       },
       child: Scaffold(

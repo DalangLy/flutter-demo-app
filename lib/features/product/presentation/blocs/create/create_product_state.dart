@@ -26,3 +26,8 @@ class CreateProductFailed extends CreateProductState {
   @override
   List<Object> get props => [];
 }
+
+class UnAuthorized extends CreateProductState {
+  @override
+  List<Object> get props => [];
+}
