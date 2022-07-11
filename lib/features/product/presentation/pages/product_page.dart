@@ -87,8 +87,8 @@ class _ProductPageState extends State<ProductPage> {
                                           message: e.name,
                                           child: SizedBox(width: 150, child: Text(e.name, style: const TextStyle(overflow: TextOverflow.ellipsis),),),),),
                                         DataCell(Tooltip(
-                                          message: e.price.toString(),
-                                          child: SizedBox(width: 80, child: Text(e.price.toString(), style: const TextStyle(overflow: TextOverflow.ellipsis),),),),),
+                                          message: '\$ ${e.price.toString()}',
+                                          child: SizedBox(width: 80, child: Text('\$ ${e.price.toString()}', style: const TextStyle(overflow: TextOverflow.ellipsis),),),),),
                                         DataCell(
                                           Row(
                                             children: [

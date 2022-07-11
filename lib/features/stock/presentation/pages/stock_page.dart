@@ -66,7 +66,7 @@ class _StockPageState extends State<StockPage> {
                             DataColumn(label: Text('Product Code')),
                             DataColumn(label: Text('Product Name')),
                             DataColumn(label: Text('Product Price')),
-                            DataColumn(label: Text('Ware')),
+                            DataColumn(label: Text('Warehouse')),
                             DataColumn(label: Text('Quantity')),
                             DataColumn(label: Text('Document Date')),
                             DataColumn(label: Text('Posting Date')),
@@ -76,7 +76,7 @@ class _StockPageState extends State<StockPage> {
                             cells: <DataCell>[
                               DataCell(SizedBox(width: 90, child: Text(e.product.code),),),
                               DataCell(SizedBox(width: 130, child: Text(e.product.name),),),
-                              DataCell(SizedBox(width: 100, child: Text(e.product.price.toString()),),),
+                              DataCell(SizedBox(width: 100, child: Text('\$ ${e.product.price.toString()}'),),),
                               DataCell(Text(e.ware.name)),
                               DataCell(Text(e.quantity.toString())),
                               DataCell(Text(e.documentDate.toString())),

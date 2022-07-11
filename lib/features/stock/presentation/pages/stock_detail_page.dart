@@ -27,7 +27,7 @@ class StockDetailPage extends StatelessWidget {
               Text('Product Code : ${entity.product.code}'),
               Text('Product Name : ${entity.product.name}'),
               Text('Product Stocking : ${entity.product.stockings}'),
-              Text('Product Price : ${entity.product.price}'),
+              Text('Product Price : \$ ${entity.product.price}'),
               Text('Product Description : ${entity.product.description}'),
               Text('Product Quantity : ${entity.quantity}'),
               const Divider(color: Colors.transparent,),

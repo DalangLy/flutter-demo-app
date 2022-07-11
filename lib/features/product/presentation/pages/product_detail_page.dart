@@ -21,7 +21,7 @@ class ProductDetailPage extends StatelessWidget {
               Text('Code : ${entity.code}'),
               Text('Stocking : ${entity.stockings}'),
               Text('Name : ${entity.name}'),
-              Text('Price : ${entity.price.toString()}'),
+              Text('Price : \$ ${entity.price.toString()}'),
               Text('Description : ${entity.description}'),
             ],
           ),
