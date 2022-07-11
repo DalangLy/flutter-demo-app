@@ -1,12 +1,8 @@
-import 'package:demo_app/features/product/domain/entities/create_product_entity.dart';
-import 'package:demo_app/features/product/presentation/blocs/create/create_product_bloc.dart';
 import 'package:demo_app/features/product/presentation/blocs/delete/delete_product_bloc.dart';
-import 'package:demo_app/features/product/presentation/blocs/get_by_id/get_product_by_id_bloc.dart';
+import 'package:demo_app/features/product/presentation/pages/add_product_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/entities/update_product_entity.dart';
 import '../blocs/get/get_all_products_bloc.dart';
-import '../blocs/update/update_product_bloc.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({Key? key}) : super(key: key);
@@ -16,9 +12,8 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
-
   @override
-  initState(){
+  initState() {
     super.initState();
 
     BlocProvider.of<GetAllProductsBloc>(context).getAllProducts();
@@ -26,83 +21,122 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Product'),
-      ),
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    ElevatedButton(onPressed: (){
-                      CreateProductEntity create = CreateProductEntity(
-                          "P-000-006",
-                          "Product Test Name 6",
-                          11,
-                          "Product Test 6 for demo");
-                      BlocProvider.of<CreateProductBloc>(context).create(create);
-                    }, child: const Icon(Icons.add),),
-                    ElevatedButton(onPressed: (){
-                      UpdateProductEntity create = UpdateProductEntity(
-                          "",
-                          "Product Test Name 6",
-                          11,
-                          "Product Test 6 for demo");
-                      BlocProvider.of<UpdateProductBloc>(context).update(create);
-                    }, child: const Icon(Icons.update),),
-                  ],
-                ),
-                const Divider(),
-                BlocBuilder<GetAllProductsBloc, GetAllProductsState>(
-                  bloc: BlocProvider.of<GetAllProductsBloc>(context),
-                  builder: (context, state) {
-                    if(state is GetAllProductsSuccess){
-                      return DataTable(
-                          columns: const <DataColumn>[
-                            DataColumn(label: Text('ID')),
-                            DataColumn(label: Text('Code')),
-                            DataColumn(label: Text('Name')),
-                            DataColumn(label: Text('Price')),
-                            DataColumn(label: Text('Description')),
-                            DataColumn(label: Text('Actions'))
-                          ],
-                          rows: state.data.map<DataRow>((e) => DataRow(
-                            cells: <DataCell>[
-                              DataCell(Text(e.id)),
-                              DataCell(Text(e.code)),
-                              DataCell(Text(e.name)),
-                              DataCell(Text(e.price.toString())),
-                              DataCell(Text(e.description.toString())),
-                              DataCell(
-                                Column(
-                                  children: [
-                                    IconButton(
-                                      onPressed: (){
-                                        BlocProvider.of<GetProductByIdBloc>(context).getById(e.id);
-                                      },
-                                      icon: const Icon(Icons.visibility,),
-                                    ),
-                                    IconButton(
-                                      onPressed: (){
-                                        BlocProvider.of<DeleteProductBloc>(context).delete(e.id);
-                                      },
-                                      icon: const Icon(Icons.delete, color: Colors.red,),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+    return BlocListener<DeleteProductBloc, DeleteProductState>(
+      listener: (context, state) {
+        if (state is DeleteProductSuccess) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(const SnackBar(content: Text('Delete Success')));
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Product'),
+        ),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const AddProductPage(),
                           ),
-                        ).toList()
-                      );
-                    }
-                    return const CircularProgressIndicator();
-                  },
-                ),
-              ],
+                        ),
+                        child: const Icon(Icons.add),
+                      ),
+                      const VerticalDivider(
+                        color: Colors.transparent,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          BlocProvider.of<GetAllProductsBloc>(context)
+                              .getAllProducts();
+                        },
+                        child: const Icon(Icons.refresh),
+                      ),
+                    ],
+                  ),
+                  const Divider(),
+                  BlocBuilder<GetAllProductsBloc, GetAllProductsState>(
+                    bloc: BlocProvider.of<GetAllProductsBloc>(context),
+                    builder: (context, state) {
+                      if (state is GetAllProductsSuccess) {
+                        return SizedBox(
+                          width: double.infinity,
+                          child: DataTable(
+                              columns: const <DataColumn>[
+                                DataColumn(label: Text('Code')),
+                                DataColumn(label: Text('Name')),
+                                DataColumn(label: Text('Price')),
+                                DataColumn(label: Text('Actions',))
+                              ],
+                              rows: state.data
+                                  .map<DataRow>(
+                                    (e) => DataRow(
+                                      cells: <DataCell>[
+                                        DataCell(Tooltip(
+                                          message: e.code,
+                                          child: SizedBox(width: 50, child: Text(e.code, style: const TextStyle(overflow: TextOverflow.ellipsis),),),),),
+                                        DataCell(Tooltip(
+                                          message: e.name,
+                                          child: SizedBox(width: 150, child: Text(e.name, style: const TextStyle(overflow: TextOverflow.ellipsis),),),),),
+                                        DataCell(Tooltip(
+                                          message: e.price.toString(),
+                                          child: SizedBox(width: 80, child: Text(e.price.toString(), style: const TextStyle(overflow: TextOverflow.ellipsis),),),),),
+                                        DataCell(
+                                          Row(
+                                            children: [
+                                              Tooltip(
+                                                message: 'View',
+                                                child: IconButton(
+                                                  onPressed: () {
+
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.visibility,
+                                                  ),
+                                                ),
+                                              ),
+                                              Tooltip(
+                                                message: 'Edit',
+                                                child: IconButton(
+                                                  onPressed: () {
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.edit,
+                                                  ),
+                                                ),
+                                              ),
+                                              Tooltip(
+                                                message: 'Delete',
+                                                child: IconButton(
+                                                  onPressed: () {
+                                                    BlocProvider.of<DeleteProductBloc>(context).delete(e.id);
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.delete,
+                                                    color: Colors.red,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                  .toList()),
+                        );
+                      }
+                      return const CircularProgressIndicator();
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

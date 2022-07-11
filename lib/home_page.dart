@@ -1,6 +1,8 @@
+import 'package:demo_app/features/login/presentation/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'features/product/presentation/pages/product_page.dart';
 import 'features/stock/presentation/pages/stock_page.dart';
+import 'features/user/presentation/pages/add_user_page.dart';
 import 'features/ware/presentation/pages/ware_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -11,6 +13,11 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home Page'),
+        actions: [
+          IconButton(onPressed: (){
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const LoginPage(),),);
+          }, icon: const Icon(Icons.logout),),
+        ],
       ),
       drawer: Drawer(
         child: Column(
@@ -25,7 +32,7 @@ class HomePage extends StatelessWidget {
               },
             ),
             ListTile(
-              title: const Text('Ware'),
+              title: const Text('Warehouse'),
               onTap: (){
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => const WarePage(),));
               },
@@ -35,13 +42,19 @@ class HomePage extends StatelessWidget {
               onTap: (){
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => const StockPage(),));
               },
+            ),
+            ListTile(
+              title: const Text('Users'),
+              onTap: (){
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AddUserPage(),));
+              },
             )
           ],
         ),
       ),
       body: const SafeArea(
         child: Center(
-          child: Text('Home Page'),
+          child: Text('Welcome'),
         ),
       ),
     );

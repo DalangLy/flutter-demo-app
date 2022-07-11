@@ -1,27 +1,26 @@
-import 'package:demo_app/features/ware/domain/entities/create_ware_entity.dart';
+import 'package:demo_app/features/user/domain/entities/create_user_entity.dart';
+import 'package:demo_app/features/user/presentation/blocs/create/create_user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../blocs/create/create_ware_bloc.dart';
 
-class AddWarePage extends StatefulWidget {
-  const AddWarePage({Key? key}) : super(key: key);
+class AddUserPage extends StatefulWidget {
+  const AddUserPage({Key? key}) : super(key: key);
 
   @override
-  State<AddWarePage> createState() => _AddWarePageState();
+  State<AddUserPage> createState() => _AddUserPageState();
 }
 
-class _AddWarePageState extends State<AddWarePage> {
+class _AddUserPageState extends State<AddUserPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late String _name;
-  late String _description;
-  late String _code;
+  late String _password;
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<CreateWareBloc, CreateWareState>(
+    return BlocListener<CreateUserBloc, CreateUserState>(
       listener: (context, state) {
-        if(state is CreateWareSuccess){
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Created Success')));
+        if(state is CreateUserSuccess){
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Created')));
 
           final FormState? form = _formKey.currentState;
           if(form == null) return;
@@ -30,7 +29,7 @@ class _AddWarePageState extends State<AddWarePage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Add Warehouse'),
+          title: const Text('Add User'),
         ),
         body: SafeArea(
           child: Padding(
@@ -60,30 +59,18 @@ class _AddWarePageState extends State<AddWarePage> {
                     TextFormField(
                       decoration: const InputDecoration(
                           border: OutlineInputBorder(),
-                          label: Text('Code')
+                          label: Text('Password')
                       ),
+                      obscureText: true,
                       onSaved: (value) {
                         if (value == null) return;
-                        _code = value;
+                        _password = value;
                       },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'please input code';
+                          return 'please input password';
                         }
                         return null;
-                      },
-                    ),
-                    const Divider(color: Colors.transparent,),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          label: Text('Description')
-                      ),
-                      minLines: 3,
-                      maxLines: 10,
-                      onSaved: (value) {
-                        if (value == null) return;
-                        _description = value;
                       },
                     ),
                     const Divider(color: Colors.transparent,),
@@ -97,9 +84,9 @@ class _AddWarePageState extends State<AddWarePage> {
                           if (form.validate()) {
                             form.save();
 
-                            CreateWareEntity createEntity = CreateWareEntity(
-                                _name, _description, _code);
-                            BlocProvider.of<CreateWareBloc>(context).create(
+                            CreateUserEntity createEntity = CreateUserEntity(
+                                _name, _password);
+                            BlocProvider.of<CreateUserBloc>(context).create(
                                 createEntity);
                           }
                         },
