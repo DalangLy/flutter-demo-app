@@ -14,6 +14,9 @@ class _AddUserPageState extends State<AddUserPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late String _name;
   late String _password;
+  late List<String> roles = [
+    'User'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -34,66 +37,110 @@ class _AddUserPageState extends State<AddUserPage> {
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Center(
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          label: Text('Name')
-                      ),
-                      onSaved: (value) {
-                        if (value == null) return;
-                        _name = value;
-                      },
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'please input name';
-                        }
-                        return null;
-                      },
-                    ),
-                    const Divider(color: Colors.transparent,),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          label: Text('Password')
-                      ),
-                      obscureText: true,
-                      onSaved: (value) {
-                        if (value == null) return;
-                        _password = value;
-                      },
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'please input password';
-                        }
-                        return null;
-                      },
-                    ),
-                    const Divider(color: Colors.transparent,),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          final FormState? form = _formKey.currentState;
-                          if (form == null) return;
-                          if (form.validate()) {
-                            form.save();
-
-                            CreateUserEntity createEntity = CreateUserEntity(
-                                _name, _password);
-                            BlocProvider.of<CreateUserBloc>(context).create(
-                                createEntity);
-                          }
+            child: SingleChildScrollView(
+              child: Center(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            label: Text('Name')
+                        ),
+                        onSaved: (value) {
+                          if (value == null) return;
+                          _name = value;
                         },
-                        child: const Text('Save'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'please input name';
+                          }
+                          return null;
+                        },
                       ),
-                    ),
-                  ],
+                      const Divider(color: Colors.transparent,),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            label: Text('Password')
+                        ),
+                        obscureText: true,
+                        onSaved: (value) {
+                          if (value == null) return;
+                          _password = value;
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'please input password';
+                          }
+                          return null;
+                        },
+                      ),
+                      const Divider(color: Colors.transparent,),
+                      CheckboxListTile(
+                          title: const Text('User'),
+                          value: true, onChanged: (value){
+                            if(value == null) return;
+                            if(value){
+                              if(roles.contains('User')) return;
+                              roles.add('User');
+                            }
+                            else{
+                              roles.remove('User');
+                            }
+                          }
+                      ),
+                      const Divider(color: Colors.transparent,),
+                      CheckboxListTile(
+                          title: const Text('Admin'),
+                          value: false, onChanged: (value){
+                            if(value == null) return;
+                            if(value){
+                              roles.add('Admin');
+                            }
+                            else{
+                              roles.remove('Admin');
+                            }
+                          }
+                      ),
+                      const Divider(color: Colors.transparent,),
+                      CheckboxListTile(
+                        title: const Text('Super Admin'),
+                        value: false, onChanged: (value){
+                          if(value == null) return;
+                          if(value){
+                            roles.add('SuperAdmin');
+                          }
+                          else{
+                            roles.remove('SuperAdmin');
+                          }
+                        }
+                      ),
+                      const Divider(color: Colors.transparent,),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            final FormState? form = _formKey.currentState;
+                            if (form == null) return;
+                            if (form.validate()) {
+                              form.save();
+
+                              CreateUserEntity createEntity = CreateUserEntity(
+                                  _name, _password,
+                                roles,
+                              );
+                              BlocProvider.of<CreateUserBloc>(context).create(
+                                  createEntity);
+                            }
+                          },
+                          child: const Text('Save'),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

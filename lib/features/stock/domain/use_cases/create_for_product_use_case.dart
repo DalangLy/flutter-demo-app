@@ -1,5 +1,4 @@
 import 'package:demo_app/features/stock/domain/entities/create_for_product_entity.dart';
-
 import '../../../../core/errors/unauthenticated_failure.dart';
 import '../../../login/domain/repositories/i_login_repository.dart';
 import '../repositories/i_stock_repository.dart';

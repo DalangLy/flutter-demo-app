@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:demo_app/features/user/data/data_sources/i_user_remote_data_source.dart';
 import 'package:demo_app/features/user/data/models/create_user_model.dart';
 import 'package:dio/dio.dart';
-
 import '../../../../core/app_config.dart';
 import '../../../../core/errors/unauthenticated_failure.dart';
 
@@ -17,12 +16,7 @@ class UserRemoteDataSource implements IUserRemoteDataSource{
       final Response response = await _dio.post(
           '$baseUrl/api/users/register',
           data: json.encode(
-              {
-                'commands':
-                [
-                  model.toJson()
-                ]
-              }
+              model.toJson()
           ),
           options: Options(
               headers: {
