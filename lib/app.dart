@@ -70,7 +70,7 @@ class App extends StatelessWidget {
         BlocProvider(create: (context) => CreateForProductBloc(CreateForProductUseCase(StockRepository(StockRemoteDataSource(Dio())), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Training Demo',
         theme: ThemeData(
           useMaterial3: true,
           primarySwatch: Colors.blue,
