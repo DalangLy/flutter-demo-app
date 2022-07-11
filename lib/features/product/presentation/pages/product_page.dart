@@ -26,6 +26,7 @@ class _ProductPageState extends State<ProductPage> {
     return BlocListener<DeleteProductBloc, DeleteProductState>(
       listener: (context, state) {
         if (state is DeleteProductSuccess) {
+          Navigator.of(context).pop();
           ScaffoldMessenger.of(context)
               .showSnackBar(const SnackBar(content: Text('Delete Success')));
         }
@@ -114,7 +115,7 @@ class _ProductPageState extends State<ProductPage> {
                                                 message: 'Delete',
                                                 child: IconButton(
                                                   onPressed: () {
-                                                    BlocProvider.of<DeleteProductBloc>(context).delete(e.id);
+                                                    _confirmDelete(e.id);
                                                   },
                                                   icon: const Icon(
                                                     Icons.delete,
@@ -140,6 +141,33 @@ class _ProductPageState extends State<ProductPage> {
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> _confirmDelete(String id) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Delete'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Are u sure?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () {
+                BlocProvider.of<DeleteProductBloc>(context).delete(id);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

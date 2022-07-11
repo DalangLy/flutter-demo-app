@@ -28,13 +28,25 @@ class _StockPageState extends State<StockPage> {
   }
   @override
   Widget build(BuildContext context) {
-    return BlocListener<TransferProductBloc, TransferProductState>(
-  listener: (context, state) {
-    if(state is TransferProductSuccess){
-      Navigator.of(context).pop();
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Transfer Success')));
-    }
-  },
+    return MultiBlocListener(
+        listeners: [
+        BlocListener<TransferProductBloc, TransferProductState>(
+          listener: (context, state) {
+            if(state is TransferProductSuccess){
+              Navigator.of(context).pop();
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Transfer Success')));
+            }
+          }
+        ),
+          BlocListener<DeleteStockBloc, DeleteStockState>(
+            listener: (context, state) {
+              if(state is DeleteStockSuccess){
+                Navigator.of(context).pop();
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Delete Success')));
+              }
+            },
+          ),
+    ],
   child: Scaffold(
       appBar: AppBar(
         title: const Text('Stock'),
@@ -98,7 +110,7 @@ class _StockPageState extends State<StockPage> {
                                     ),
                                     IconButton(
                                       onPressed: (){
-                                        BlocProvider.of<DeleteStockBloc>(context).delete(e.id);
+                                        _confirmDelete(e.id);
                                       },
                                       icon: const Icon(Icons.delete, color: Colors.red,),
                                     ),
@@ -197,6 +209,33 @@ class _StockPageState extends State<StockPage> {
                   BlocProvider.of<TransferProductBloc>(context).transferProduct(entity);
                   
                 }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _confirmDelete(String id) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Delete'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Are u sure?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () {
+                BlocProvider.of<DeleteStockBloc>(context).delete(id);
               },
             ),
           ],

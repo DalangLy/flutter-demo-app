@@ -9,9 +9,11 @@ import 'package:demo_app/features/product/presentation/blocs/delete/delete_produ
 import 'package:demo_app/features/product/presentation/blocs/update/update_product_bloc.dart';
 import 'package:demo_app/features/stock/domain/use_cases/create_for_product_use_case.dart';
 import 'package:demo_app/features/stock/domain/use_cases/create_stock_use_case.dart';
+import 'package:demo_app/features/stock/domain/use_cases/delete_stock_use_case.dart';
 import 'package:demo_app/features/stock/domain/use_cases/transfer_stock_use_case.dart';
 import 'package:demo_app/features/stock/presentation/blocs/create/create_stock_bloc.dart';
 import 'package:demo_app/features/stock/presentation/blocs/create_for_product/create_for_product_bloc.dart';
+import 'package:demo_app/features/stock/presentation/blocs/delete/delete_stock_bloc.dart';
 import 'package:demo_app/features/stock/presentation/blocs/transfer/transfer_product_bloc.dart';
 import 'package:demo_app/features/user/data/repositories/user_repository.dart';
 import 'package:demo_app/features/user/domain/use_cases/create_user_use_case.dart';
@@ -63,6 +65,7 @@ class App extends StatelessWidget {
         BlocProvider(create: (context) => CreateProductBloc(CreateProductUseCase(ProductRepository(ProductRemoteDataSource(Dio())), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
         BlocProvider(create: (context) => GetAllStocksBloc(GetAllStocksUseCase(StockRepository(StockRemoteDataSource(Dio())), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
         BlocProvider(create: (context) => CreateStockBloc(CreateStockUseCase(StockRepository(StockRemoteDataSource(Dio())), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
+        BlocProvider(create: (context) => DeleteStockBloc(DeleteStockUseCase(StockRepository(StockRemoteDataSource(Dio())), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
         BlocProvider(create: (context) => TransferProductBloc(TransferStockUseCase(StockRepository(StockRemoteDataSource(Dio())), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
         BlocProvider(create: (context) => CreateForProductBloc(CreateForProductUseCase(StockRepository(StockRemoteDataSource(Dio())), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
       ],
