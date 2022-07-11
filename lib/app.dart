@@ -3,18 +3,24 @@ import 'package:demo_app/features/login/presentation/blocs/login/login_bloc.dart
 import 'package:demo_app/features/login/presentation/pages/login_page.dart';
 import 'package:demo_app/features/product/domain/use_cases/create_product_use_case.dart';
 import 'package:demo_app/features/product/domain/use_cases/delete_product_use_case.dart';
+import 'package:demo_app/features/product/domain/use_cases/update_product_use_case.dart';
 import 'package:demo_app/features/product/presentation/blocs/create/create_product_bloc.dart';
 import 'package:demo_app/features/product/presentation/blocs/delete/delete_product_bloc.dart';
+import 'package:demo_app/features/product/presentation/blocs/update/update_product_bloc.dart';
+import 'package:demo_app/features/stock/domain/use_cases/create_for_product_use_case.dart';
 import 'package:demo_app/features/stock/domain/use_cases/create_stock_use_case.dart';
 import 'package:demo_app/features/stock/domain/use_cases/transfer_stock_use_case.dart';
 import 'package:demo_app/features/stock/presentation/blocs/create/create_stock_bloc.dart';
+import 'package:demo_app/features/stock/presentation/blocs/create_for_product/create_for_product_bloc.dart';
 import 'package:demo_app/features/stock/presentation/blocs/transfer/transfer_product_bloc.dart';
 import 'package:demo_app/features/user/data/repositories/user_repository.dart';
 import 'package:demo_app/features/user/domain/use_cases/create_user_use_case.dart';
 import 'package:demo_app/features/user/presentation/blocs/create/create_user_bloc.dart';
 import 'package:demo_app/features/ware/domain/use_cases/create_ware_use_case.dart';
 import 'package:demo_app/features/ware/domain/use_cases/delete_ware_use_case.dart';
+import 'package:demo_app/features/ware/domain/use_cases/update_ware_use_case.dart';
 import 'package:demo_app/features/ware/presentation/blocs/delete/delete_ware_bloc.dart';
+import 'package:demo_app/features/ware/presentation/blocs/update/update_ware_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,13 +55,16 @@ class App extends StatelessWidget {
         BlocProvider(create: (context) => GetAllProductsBloc(GetAllProductsUseCase(ProductRepository(ProductRemoteDataSource(Dio()),), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
         BlocProvider(create: (context) => DeleteProductBloc(DeleteProductUseCase(ProductRepository(ProductRemoteDataSource(Dio()),), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
         BlocProvider(create: (context) => CreateProductBloc(CreateProductUseCase(ProductRepository(ProductRemoteDataSource(Dio()),), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
+        BlocProvider(create: (context) => UpdateProductBloc(UpdateProductUseCase(ProductRepository(ProductRemoteDataSource(Dio()),), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
         BlocProvider(create: (context) => GetAllWaresBloc(GetAllWaresUseCase(WareRepository(WareRemoteDataSource(Dio())), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
         BlocProvider(create: (context) => CreateWareBloc(CreateWareUseCase(WareRepository(WareRemoteDataSource(Dio())), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
         BlocProvider(create: (context) => DeleteWareBloc(DeleteWareUseCase(WareRepository(WareRemoteDataSource(Dio())), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
+        BlocProvider(create: (context) => UpdateWareBloc(UpdateWareUseCase(WareRepository(WareRemoteDataSource(Dio())), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
         BlocProvider(create: (context) => CreateProductBloc(CreateProductUseCase(ProductRepository(ProductRemoteDataSource(Dio())), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
         BlocProvider(create: (context) => GetAllStocksBloc(GetAllStocksUseCase(StockRepository(StockRemoteDataSource(Dio())), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
         BlocProvider(create: (context) => CreateStockBloc(CreateStockUseCase(StockRepository(StockRemoteDataSource(Dio())), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
         BlocProvider(create: (context) => TransferProductBloc(TransferStockUseCase(StockRepository(StockRemoteDataSource(Dio())), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
+        BlocProvider(create: (context) => CreateForProductBloc(CreateForProductUseCase(StockRepository(StockRemoteDataSource(Dio())), LoginRepository(LoginRemoteDataSource(Dio()), LoginLocalDataSource(SharedPreferences.getInstance())))),),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

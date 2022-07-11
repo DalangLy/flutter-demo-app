@@ -1,4 +1,6 @@
 import 'package:demo_app/features/ware/presentation/pages/add_ware_page.dart';
+import 'package:demo_app/features/ware/presentation/pages/edit_warehouse_page.dart';
+import 'package:demo_app/features/ware/presentation/pages/ware_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/delete/delete_ware_bloc.dart';
@@ -83,16 +85,14 @@ class _WarePageState extends State<WarePage> {
                                             children: [
                                               IconButton(
                                                 onPressed: () {
-                                                  //BlocProvider.of<GetStockByIdBloc>(context).getById(e.id);
+                                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => WareDetailPage(entity: e),));
                                                 },
                                                 icon: const Icon(
                                                   Icons.visibility,
                                                 ),
                                               ),
                                               IconButton(
-                                                onPressed: () {
-                                                  //BlocProvider.of<GetStockByIdBloc>(context).getById(e.id);
-                                                },
+                                                onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditWarehousePage(entity: e,),)),
                                                 icon: const Icon(
                                                   Icons.edit,
                                                 ),

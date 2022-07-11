@@ -1,5 +1,7 @@
 import 'package:demo_app/features/product/presentation/blocs/delete/delete_product_bloc.dart';
 import 'package:demo_app/features/product/presentation/pages/add_product_page.dart';
+import 'package:demo_app/features/product/presentation/pages/product_detail_page.dart';
+import 'package:demo_app/features/product/presentation/pages/update_product_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/get/get_all_products_bloc.dart';
@@ -93,9 +95,7 @@ class _ProductPageState extends State<ProductPage> {
                                               Tooltip(
                                                 message: 'View',
                                                 child: IconButton(
-                                                  onPressed: () {
-
-                                                  },
+                                                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductDetailPage(entity: e),)),
                                                   icon: const Icon(
                                                     Icons.visibility,
                                                   ),
@@ -104,8 +104,7 @@ class _ProductPageState extends State<ProductPage> {
                                               Tooltip(
                                                 message: 'Edit',
                                                 child: IconButton(
-                                                  onPressed: () {
-                                                  },
+                                                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => UpdateProductPage(entity: e),)),
                                                   icon: const Icon(
                                                     Icons.edit,
                                                   ),

@@ -3,6 +3,8 @@ import 'package:demo_app/features/stock/presentation/blocs/delete/delete_stock_b
 import 'package:demo_app/features/stock/presentation/blocs/get/get_all_stocks_bloc.dart';
 import 'package:demo_app/features/stock/presentation/blocs/transfer/transfer_product_bloc.dart';
 import 'package:demo_app/features/stock/presentation/pages/add_stock_page.dart';
+import 'package:demo_app/features/stock/presentation/pages/add_stock_product_page.dart';
+import 'package:demo_app/features/stock/presentation/pages/stock_detail_page.dart';
 import 'package:demo_app/features/ware/presentation/blocs/get/get_all_wares_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,6 +52,8 @@ class _StockPageState extends State<StockPage> {
                     ElevatedButton(onPressed: (){
                       BlocProvider.of<GetAllStocksBloc>(context).getAllStocks();
                     }, child: const Icon(Icons.refresh),),
+                    const VerticalDivider(),
+                    ElevatedButton(onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AddStockProductPage(),)), child: const Text('New Product'),),
                   ],
                 ),
                 const Divider(),
@@ -82,7 +86,7 @@ class _StockPageState extends State<StockPage> {
                                   children: [
                                     IconButton(
                                       onPressed: (){
-                                        //BlocProvider.of<GetStockByIdBloc>(context).getById(e.id);
+                                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => StockDetailPage(entity: e),));
                                       },
                                       icon: const Icon(Icons.visibility,),
                                     ),
